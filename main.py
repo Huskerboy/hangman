@@ -15,10 +15,10 @@ def clear():
     else:
         os.system('clear')
 
-def draw(wrong_guess, right_guess, random_team):
+def draw(wrong_guess, right_guess, random_team, max_guesses):
     clear()
 
-    print('Strikes: {}/7'.format(len(wrong_guess)))
+    print('Strikes: {}/{}'.format(len(wrong_guess), max_guesses))
     print('')
 
     for letter in wrong_guess:
@@ -52,9 +52,11 @@ def play(done):
     random_team = random.choice(teams['teams'])
     wrong_guess = []
     right_guess = []
+    max_guesses = 5 if len(random_team) < 7 else 7
+
 
     while True:
-        draw(wrong_guess, right_guess, random_team)
+        draw(wrong_guess, right_guess, random_team, max_guesses)
         guess = get_guess(wrong_guess, right_guess)
 
         if guess in random_team:
@@ -69,8 +71,8 @@ def play(done):
                 done = True
         else:
             wrong_guess.append(guess)
-            if len(wrong_guess) == 7:
-                draw(wrong_guess, right_guess, random_team)
+            if len(wrong_guess) == max_guesses:
+                draw(wrong_guess, right_guess, random_team, max_guesses)
                 print("You lost!")
                 print("The secret word was {}".format(random_team))
                 done = True
