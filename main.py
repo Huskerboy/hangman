@@ -1,43 +1,13 @@
 import os
 import random
 import sys
+import json
 
 
-#NFL teams only
-teams = [
-    'ravens',
-    'bengals',
-    'browns',
-    'steelers',
-    'bears',
-    'lions',
-    'packers',
-    'vikings',
-    'texans',
-    'colts',
-    'jaguars',
-    'titans',
-    'falcons',
-    'panthers',
-    'saints',
-    'bucaneers',
-    'bills',
-    'dolphins',
-    'patriots',
-    'jets',
-    'cowboys',
-    'giants',
-    'eagles',
-    'redskins',
-    'broncos',
-    'chiefs',
-    'chargers',
-    'raiders',
-    'cardinals',
-    'rams',
-    '49ers',
-    'seahawks'
-]
+
+def get_teams_json():
+    with open('name_list.json') as f:
+        return json.load(f)
 
 def clear():
     if os.name == 'nt':
@@ -69,7 +39,7 @@ def get_guess(wrong_guess, right_guess):
         guess = input("Guess a letter: ").lower()
 
         if len(guess) != 1:
-            print("You can only guess a sinle letter!")
+            print("You can only guess a single letter!")
         elif guess in wrong_guess or guess in right_guess:
             print("You've already guessed that letter!")
         else:
@@ -78,7 +48,8 @@ def get_guess(wrong_guess, right_guess):
 
 def play(done):
     clear()
-    random_team = random.choice(teams)
+    teams = get_teams_json()
+    random_team = random.choice(teams['teams'])
     wrong_guess = []
     right_guess = []
 
@@ -120,7 +91,7 @@ def welcome():
         return True
 
 
-print('Welcome to Hangman!')
+print('Welcome to Hangman! You are attempting to guess and NFL team name')
 
 done = False
 
